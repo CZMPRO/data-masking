@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>数据脱敏治理中心系统注册</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('../image/李白背景图.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    .container {
+      width: 400px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      margin: 100px auto;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .sub-title {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .code-box {
+      display: flex;
+      gap: 10px;
+    }
+
+    .code-box input {
+      flex: 1;
+    }
+
+    .code-box button {
+      flex: none;
+      padding: 12px 16px;
+      background: #409eff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button.submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: #ff77a9;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #666;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer a {
+      color: #409eff;
+      text-decoration: none;
+    }
+
+    .lang-select {
+      font-size: 13px;
+      color: #999;
+    }
+
+    @media (max-width: 460px) {
+      .container {
+        width: 90%;
+        margin: 50px auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>数据脱敏治理中心</h1>
+    <!-- <div class="sub-title"></div> -->
+    
+    <input type="email" placeholder="请输入邮箱" />
+  
+    <input type="text" placeholder="请输入用户名" />
+    <input type="password" placeholder="设置密码" />
+
+    <button class="submit-btn" onclick="alert('注册成功！')">立即注册</button>
+
+    <div class="footer">
+      <a href="./登录页面原型设计.html">已有账号？去登录</a>
+      <div class="lang-select">🌐 简体中文</div>
+    </div>
+  </div>
+</body>
+</html>
+

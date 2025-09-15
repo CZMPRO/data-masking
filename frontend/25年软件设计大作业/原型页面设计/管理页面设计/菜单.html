@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>管理系统 - 管理员仪表盘</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      display: flex;
+      min-height: 100vh;
+      background: #f5f6fa;
+    }
+
+    /* 侧边栏样式 */
+    .sidebar {
+      width: 240px;
+      background: #2c3e50;
+      color: #ecf0f1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 用户信息区域 */
+    .user-card {
+      padding: 24px;
+      border-bottom: 1px solid #34495e;
+      position: relative;
+    }
+
+    .user-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #3498db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-details h2 {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .user-details p {
+      color: #95a5a6;
+      font-size: 12px;
+    }
+
+    /* 个人信息入口 */
+    .profile-entry {
+      margin-top: 16px;
+      padding: 8px 12px;
+      background: #34495e;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.3s;
+    }
+
+    .profile-entry:hover {
+      background: #3d566e;
+    }
+
+    .profile-entry::before {
+      content: "👤";
+      font-size: 14px;
+    }
+
+    /* 主菜单样式 */
+    .main-menu {
+      flex: 1;
+      padding: 16px 0;
+    }
+
+    .menu-item {
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: background 0.3s;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .menu-item:hover {
+      background: #34495e;
+    }
+
+    .menu-item.active {
+      background: #3498db;
+    }
+
+    .menu-item::before {
+      content: "▸";
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    /* 退出按钮 */
+    .logout-area {
+      padding: 16px;
+      border-top: 1px solid #34495e;
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 10px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: #c0392b;
+    }
+
+    /* 主内容区 */
+    .main-content {
+      flex: 1;
+      padding: 32px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- 侧边栏 -->
+  <div class="sidebar">
+    <!-- 用户信息及个人入口 -->
+    <div class="user-card">
+      <div class="user-header">
+        <div class="user-avatar">A</div>
+        <div class="user-details">
+          <h2>管理员</h2>
+          <p>admin@example.com</p>
+        </div>
+      </div>
+      <div class="profile-entry" onclick="showProfile()">
+        个人信息
+      </div>
+    </div>
+
+    <!-- 主菜单 -->
+    <nav class="main-menu">
+      <div class="menu-item active">
+        仪表盘
+      </div>
+      <div class="menu-item">
+        用户管理
+      </div>
+      <div class="menu-item">
+        策略管理
+      </div>
+      <div class="menu-item">
+        任务管理
+      </div>
+      <div class="menu-item">
+        数据管理
+      </div>
+      <div class="menu-item">
+        日志查看
+      </div>
+    </nav>
+
+    <!-- 退出登录 -->
+    <div class="logout-area">
+      <button class="logout-btn" onclick="logout()">退出登录</button>
+    </div>
+  </div>
+
+  <!-- 主内容区 -->
+  <div class="main-content">
+    <h1>仪表盘</h1>
+    <p>这里可以根据权限加载对应的模块组件。</p>
+    <!-- 个人信息面板（默认隐藏） -->
+    <div id="profilePanel" style="display:none; margin-top:20px; padding:20px; background:#f8f9fa; border-radius:8px;">
+      <h3>个人信息</h3>
+      <p>姓名：管理员</p>
+      <p>邮箱：admin@example.com</p>
+      <p>最后登录时间：2023-10-20 14:30</p>
+    </div>
+  </div>
+
+  <script>
+    // 菜单交互
+    document.querySelectorAll('.menu-item').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+        // 根据点击菜单加载对应内容
+        const menuText = this.textContent.trim();
+        document.querySelector('.main-content h1').textContent = menuText;
+        document.querySelector('.main-content p').textContent = `当前显示 ${menuText} 模块内容`;
+      });
+    });
+
+    // 显示个人信息
+    function showProfile() {
+      const panel = document.getElementById('profilePanel');
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // 退出登录
+    function logout() {
+      if(confirm('确定要退出登录吗？')) {
+        window.location.href = '/logout';
+      }
+    }
+  </script>
+</body>
+</html>

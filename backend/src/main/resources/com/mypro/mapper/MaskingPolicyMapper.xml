@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mypro.mapper.MaskingPolicyMapper">
+  <resultMap id="BaseResultMap" type="com.mypro.entity.MaskingPolicy">
+    <id column="policy_id" jdbcType="INTEGER" property="policyId" />
+    <result column="policy_name" jdbcType="VARCHAR" property="policyName" />
+    <result column="target_field" jdbcType="VARCHAR" property="targetField" />
+    <result column="rule" jdbcType="VARCHAR" property="rule" />
+    <result column="policy_desc" jdbcType="VARCHAR" property="policyDesc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    policy_id, policy_name, target_field, rule, policy_desc
+  </sql>
+  <select id="selectByExample" parameterType="com.mypro.entity.MaskingPolicyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from MaskingPolicy
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MaskingPolicy
+    where policy_id = #{policyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from MaskingPolicy
+    where policy_id = #{policyId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mypro.entity.MaskingPolicyExample">
+    delete from MaskingPolicy
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mypro.entity.MaskingPolicy">
+    <selectKey keyProperty="policyId" order="BEFORE" resultType="java.lang.Integer">
+      select if(max(policy_id) is null, 1, max(policy_id) + 1) as newId from MaskingPolicy
+    </selectKey>
+    insert into MaskingPolicy (policy_id, policy_name, target_field, 
+      rule, policy_desc)
+    values (#{policyId,jdbcType=INTEGER}, #{policyName,jdbcType=VARCHAR}, #{targetField,jdbcType=VARCHAR}, 
+      #{rule,jdbcType=VARCHAR}, #{policyDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mypro.entity.MaskingPolicy">
+    <selectKey keyProperty="policyId" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into MaskingPolicy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      policy_id,
+      <if test="policyName != null">
+        policy_name,
+      </if>
+      <if test="targetField != null">
+        target_field,
+      </if>
+      <if test="rule != null">
+        rule,
+      </if>
+      <if test="policyDesc != null">
+        policy_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{policyId,jdbcType=INTEGER},
+      <if test="policyName != null">
+        #{policyName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetField != null">
+        #{targetField,jdbcType=VARCHAR},
+      </if>
+      <if test="rule != null">
+        #{rule,jdbcType=VARCHAR},
+      </if>
+      <if test="policyDesc != null">
+        #{policyDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mypro.entity.MaskingPolicyExample" resultType="java.lang.Long">
+    select count(*) from MaskingPolicy
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update MaskingPolicy
+    <set>
+      <if test="row.policyId != null">
+        policy_id = #{row.policyId,jdbcType=INTEGER},
+      </if>
+      <if test="row.policyName != null">
+        policy_name = #{row.policyName,jdbcType=VARCHAR},
+      </if>
+      <if test="row.targetField != null">
+        target_field = #{row.targetField,jdbcType=VARCHAR},
+      </if>
+      <if test="row.rule != null">
+        rule = #{row.rule,jdbcType=VARCHAR},
+      </if>
+      <if test="row.policyDesc != null">
+        policy_desc = #{row.policyDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update MaskingPolicy
+    set policy_id = #{row.policyId,jdbcType=INTEGER},
+      policy_name = #{row.policyName,jdbcType=VARCHAR},
+      target_field = #{row.targetField,jdbcType=VARCHAR},
+      rule = #{row.rule,jdbcType=VARCHAR},
+      policy_desc = #{row.policyDesc,jdbcType=VARCHAR}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mypro.entity.MaskingPolicy">
+    update MaskingPolicy
+    <set>
+      <if test="policyName != null">
+        policy_name = #{policyName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetField != null">
+        target_field = #{targetField,jdbcType=VARCHAR},
+      </if>
+      <if test="rule != null">
+        rule = #{rule,jdbcType=VARCHAR},
+      </if>
+      <if test="policyDesc != null">
+        policy_desc = #{policyDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where policy_id = #{policyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mypro.entity.MaskingPolicy">
+    update MaskingPolicy
+    set policy_name = #{policyName,jdbcType=VARCHAR},
+      target_field = #{targetField,jdbcType=VARCHAR},
+      rule = #{rule,jdbcType=VARCHAR},
+      policy_desc = #{policyDesc,jdbcType=VARCHAR}
+    where policy_id = #{policyId,jdbcType=INTEGER}
+  </update>
+</mapper>

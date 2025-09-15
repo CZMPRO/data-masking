@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!-- 引入配置文件 数据库连接信息 -->
+    <properties resource="jdbc.properties"/>
+    <!-- 指定数据连接驱动jar地址 -->
+    <classPathEntry location="D:\repository\com\mysql\mysql-connector-j\8.3.0\mysql-connector-j-8.3.0.jar"/>
+
+    <context id="context" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <!--去除timestamp -->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+        <!-- 数据库的相关配置 -->
+        <jdbcConnection driverClass="${jdbc.classname}"
+                        connectionURL="${jdbc.url}"
+                        userId="${jdbc.username}"
+                        password="${jdbc.password}"/>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 实体类生成的位置 -->
+        <javaModelGenerator targetPackage="com.mypro.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- *Mapper.xml 文件的位置 ，targetPackage：包名，targetProject：项目下的路径-->
+        <sqlMapGenerator targetPackage="com.mypro.mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- Mapper 接口文件的位置 -->
+        <javaClientGenerator targetPackage="com.mypro.mapper" targetProject="src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!-- 配置表信息 -->
+        <!-- 角色表信息 -->
+        <table tableName="Role" domainObjectName="Role">
+            <!--是否生成有参的构造方法， 默认否-->
+            <property name="constructorBased" value="false"/>
+            <!--默认值为false，如果为true，在生成的sql语句中表名中不会加上catalog或schema-->
+            <property name="ignoreQualifiersAtRuntime" value="false"/>
+            <!--默认值为false，如果为true创建不可变类，生成包含所有field参数的构造方法，没有setter方法-->
+            <property name="immutable" value="false"/>
+            <!--是否只生成模型类，默认值为false-->
+            <property name="modelOnly" value="false"/>
+            <!--是否使用真实的字段名称作为类中的属性名称，默认值为false-->
+            <property name="useActualColumnNames" value="false"/>
+            <!--主键生成策略：可选值：MySql、SqlServer、SYBASE、DB2、Derby等
+                使用MySql即生成：SELECT LAST_INSERT_ID() 获取主键值
+            -->
+            <generatedKey column="role_id" sqlStatement="MySql"/>
+        </table>
+
+        <!-- 用户表信息 有外键-->
+        <table tableName="User" domainObjectName="User">
+            <property name="constructorBased" value="false"/>
+            <property name="ignoreQualifiersAtRuntime" value="false"/>
+            <property name="immutable" value="false"/>
+            <property name="modelOnly" value="false"/>
+            <property name="useActualColumnNames" value="false"/>
+
+            <generatedKey column="user_id" sqlStatement="MySql"/>
+            <!-- 指定新属性名 -->
+<!--            <columnOverride column="dname" property="deptName" javaType="java.lang.String"/>-->
+        </table>
+
+        <!-- 权限表信息 -->
+        <table tableName="Permission" domainObjectName="Permission">
+            <property name="constructorBased" value="false"/>
+            <property name="ignoreQualifiersAtRuntime" value="false"/>
+            <property name="immutable" value="false"/>
+            <property name="modelOnly" value="false"/>
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="permission_id" sqlStatement="MySql"/>
+        </table>
+
+        <!-- 角色权限关系表信息 有外键-->
+        <table tableName="Role_Permission" domainObjectName="Role_Permission">
+            <property name="constructorBased" value="false"/>
+            <property name="ignoreQualifiersAtRuntime" value="false"/>
+            <property name="immutable" value="false"/>
+            <property name="modelOnly" value="false"/>
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="permission_id" sqlStatement="MySql"/>
+        </table>
+
+
+        <!-- 敏感数据表 有外键-->
+        <table tableName="SensitiveData" domainObjectName="SensitiveData">
+            <property name="constructorBased" value="false"/>
+            <property name="ignoreQualifiersAtRuntime" value="false"/>
+            <property name="immutable" value="false"/>
+            <property name="modelOnly" value="false"/>
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="data_id" sqlStatement="MySql"/>
+        </table>
+
+
+        <!-- 脱敏策略表-->
+        <table tableName="MaskingPolicy" domainObjectName="MaskingPolicy">
+            <property name="constructorBased" value="false"/>
+            <property name="ignoreQualifiersAtRuntime" value="false"/>
+            <property name="immutable" value="false"/>
+            <property name="modelOnly" value="false"/>
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="policy_id" sqlStatement="MySql"/>
+        </table>
+
+        <!-- 敏感任务表 有外键-->
+        <table tableName="MaskingTask" domainObjectName="MaskingTask">
+            <property name="constructorBased" value="false"/>
+            <property name="ignoreQualifiersAtRuntime" value="false"/>
+            <property name="immutable" value="false"/>
+            <property name="modelOnly" value="false"/>
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="task_id" sqlStatement="MySql"/>
+        </table>
+
+        <!-- 操作日志表 有外键-->
+        <table tableName="OperationLog" domainObjectName="OperationLog">
+            <property name="constructorBased" value="false"/>
+            <property name="ignoreQualifiersAtRuntime" value="false"/>
+            <property name="immutable" value="false"/>
+            <property name="modelOnly" value="false"/>
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="log_id" sqlStatement="MySql"/>
+        </table>
+
+        <!-- 审计日志表 有外键-->
+        <table tableName="AuditLog" domainObjectName="AuditLog">
+            <property name="constructorBased" value="false"/>
+            <property name="ignoreQualifiersAtRuntime" value="false"/>
+            <property name="immutable" value="false"/>
+            <property name="modelOnly" value="false"/>
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="audit_id" sqlStatement="MySql"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

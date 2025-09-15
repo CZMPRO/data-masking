@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mypro.mapper.AuditLogMapper">
+  <resultMap id="BaseResultMap" type="com.mypro.entity.AuditLog">
+    <id column="audit_id" jdbcType="INTEGER" property="auditId" />
+    <result column="auditor_id" jdbcType="INTEGER" property="auditorId" />
+    <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
+    <result column="report_summary" jdbcType="VARCHAR" property="reportSummary" />
+    <result column="log_id" jdbcType="INTEGER" property="logId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    audit_id, auditor_id, audit_time, report_summary, log_id
+  </sql>
+  <select id="selectByExample" parameterType="com.mypro.entity.AuditLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from AuditLog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from AuditLog
+    where audit_id = #{auditId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from AuditLog
+    where audit_id = #{auditId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mypro.entity.AuditLogExample">
+    delete from AuditLog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mypro.entity.AuditLog" keyProperty="auditId">
+    <selectKey keyProperty="auditId" order="AFTER" resultType="java.lang.Integer">
+      select if(max(audit_id) is null, 1, max(audit_id) + 1) as newId from AuditLog
+    </selectKey>
+    insert into AuditLog (audit_id, auditor_id, audit_time, 
+      report_summary, log_id)
+    values (#{auditId,jdbcType=INTEGER}, #{auditorId,jdbcType=INTEGER}, #{auditTime,jdbcType=TIMESTAMP}, 
+      #{reportSummary,jdbcType=VARCHAR}, #{logId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mypro.entity.AuditLog">
+    <selectKey keyProperty="auditId" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into AuditLog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      audit_id,
+      <if test="auditorId != null">
+        auditor_id,
+      </if>
+      <if test="auditTime != null">
+        audit_time,
+      </if>
+      <if test="reportSummary != null">
+        report_summary,
+      </if>
+      <if test="logId != null">
+        log_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{auditId,jdbcType=INTEGER},
+      <if test="auditorId != null">
+        #{auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportSummary != null">
+        #{reportSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="logId != null">
+        #{logId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mypro.entity.AuditLogExample" resultType="java.lang.Long">
+    select count(*) from AuditLog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update AuditLog
+    <set>
+      <if test="row.auditId != null">
+        audit_id = #{row.auditId,jdbcType=INTEGER},
+      </if>
+      <if test="row.auditorId != null">
+        auditor_id = #{row.auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="row.auditTime != null">
+        audit_time = #{row.auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.reportSummary != null">
+        report_summary = #{row.reportSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="row.logId != null">
+        log_id = #{row.logId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update AuditLog
+    set audit_id = #{row.auditId,jdbcType=INTEGER},
+      auditor_id = #{row.auditorId,jdbcType=INTEGER},
+      audit_time = #{row.auditTime,jdbcType=TIMESTAMP},
+      report_summary = #{row.reportSummary,jdbcType=VARCHAR},
+      log_id = #{row.logId,jdbcType=INTEGER}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mypro.entity.AuditLog">
+    update AuditLog
+    <set>
+      <if test="auditorId != null">
+        auditor_id = #{auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="auditTime != null">
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportSummary != null">
+        report_summary = #{reportSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="logId != null">
+        log_id = #{logId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where audit_id = #{auditId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mypro.entity.AuditLog">
+    update AuditLog
+    set auditor_id = #{auditorId,jdbcType=INTEGER},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      report_summary = #{reportSummary,jdbcType=VARCHAR},
+      log_id = #{logId,jdbcType=INTEGER}
+    where audit_id = #{auditId,jdbcType=INTEGER}
+  </update>
+</mapper>
